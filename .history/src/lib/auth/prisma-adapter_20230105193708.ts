@@ -1,54 +1,17 @@
 /* eslint-disable prettier/prettier */
-import { NextApiRequest, NextApiResponse } from 'next'
 import { Adapter } from 'next-auth/adapters'
 import { prisma } from '../prisma'
-import { parseCookies, destroyCookie } from 'nookies'
 
-export function PrismaAdapter(req: NextApiRequest, res: NextApiResponse): Adapter {
+export function PrismaAdapter(): Adapter {
   return {
-    async createUser(user) {
-      const { '@ignitecall:userId': userIdOnCookies } = parseCookies({ req })
-
-      if (!userIdOnCookies) {
-        throw new Error('User ID not found on cookies.')
-      }
-
-      const prismaUser = await prisma.user.update({
-        where: {
-          id: userIdOnCookies,
-        },
-
-        data: {
-          name: user.name,
-          email: user.email,
-          avatar_url: user.avatar_url,
-        },
-      })
-
-      destroyCookie({ res }, '@ignitecall:userId', {
-        path: '/',
-      })
-
-      return {
-        id: prismaUser.id,
-        name: prismaUser.name,
-        username: prismaUser.username,
-        email: prismaUser.email!,
-        emailVerified: null,
-        avatar_url: prismaUser.avatar_url!,
-      }
-    },
+    async createUser(user) {},
 
     async getUser(id) {
-      const user = await prisma.user.findUnique({
+      const user = await prisma.user.findUniqueOrThrow({
         where: {
           id,
         },
       })
-
-      if(!user) {
-        return null
-      }
 
       return {
         id: user.id,
@@ -61,15 +24,11 @@ export function PrismaAdapter(req: NextApiRequest, res: NextApiResponse): Adapte
       }
     },
     async getUserByEmail(email) {
-      const user = await prisma.user.findUnique({
+      const user = await prisma.user.findUniqueOrThrow({
         where: {
           email,
         },
       })
-
-      if(!user) {
-        return null
-      }
 
       return {
         id: user.id,
@@ -82,7 +41,7 @@ export function PrismaAdapter(req: NextApiRequest, res: NextApiResponse): Adapte
       }
     },
     async getUserByAccount({ providerAccountId, provider }) {
-      const account = await prisma.account.findUnique({
+      const { user } = await prisma.account.findUniqueOrThrow({
         where: {
           provider_provider_account_id: {
             provider,
@@ -93,12 +52,6 @@ export function PrismaAdapter(req: NextApiRequest, res: NextApiResponse): Adapte
           user: true
         } 
       })
-
-      if(!account) {
-         return null;
-      }
-
-      const { user } = account
       
       return {
         id: user.id,

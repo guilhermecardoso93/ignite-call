@@ -40,15 +40,11 @@ export function PrismaAdapter(req: NextApiRequest, res: NextApiResponse): Adapte
     },
 
     async getUser(id) {
-      const user = await prisma.user.findUnique({
+      const user = await prisma.user.findUniqueOrThrow({
         where: {
           id,
         },
       })
-
-      if(!user) {
-        return null
-      }
 
       return {
         id: user.id,
@@ -61,15 +57,17 @@ export function PrismaAdapter(req: NextApiRequest, res: NextApiResponse): Adapte
       }
     },
     async getUserByEmail(email) {
-      const user = await prisma.user.findUnique({
+      const account = await prisma.user.findUnique({
         where: {
           email,
         },
       })
 
-      if(!user) {
-        return null
+      if (!account) {
+        return null;
       }
+
+      const { user } = account
 
       return {
         id: user.id,
@@ -82,7 +80,7 @@ export function PrismaAdapter(req: NextApiRequest, res: NextApiResponse): Adapte
       }
     },
     async getUserByAccount({ providerAccountId, provider }) {
-      const account = await prisma.account.findUnique({
+      const { user } = await prisma.account.findUniqueOrThrow({
         where: {
           provider_provider_account_id: {
             provider,
@@ -93,12 +91,6 @@ export function PrismaAdapter(req: NextApiRequest, res: NextApiResponse): Adapte
           user: true
         } 
       })
-
-      if(!account) {
-         return null;
-      }
-
-      const { user } = account
       
       return {
         id: user.id,
