@@ -35,10 +35,9 @@ model Account {
   id_token            String?
   session_state       String?
 
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, provider_account_id])
-  @@map("accounts")
+  @@unique([providerId, providerAccountId])
 }
 
 model Session {
@@ -47,7 +46,5 @@ model Session {
   user_id       String
   expires       DateTime
 
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@map("sessions")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
