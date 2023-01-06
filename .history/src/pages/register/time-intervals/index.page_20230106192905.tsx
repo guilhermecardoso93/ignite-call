@@ -6,7 +6,7 @@ import { ArrowRight, Check } from 'phosphor-react'
 import { Container, Header } from '../styles'
 import { ConnectItem, ConnectBox, AuthError } from './styles'
 
-export default function ConnectCalender() {
+export default function TimeIntervals() {
   const session = useSession()
   const router = useRouter()
 
