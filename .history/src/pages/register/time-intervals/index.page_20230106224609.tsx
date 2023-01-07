@@ -17,7 +17,7 @@ const timeIntervalsFormSchema = z.object({
     z.object({
       weekDay: z.number().min(0).max(6),
       enabled: z.boolean(),
-      startTime: z.string(),
+      starTime: z.string(),
       endTime: z.string(),
     }))
     .length(7)
@@ -29,7 +29,7 @@ const timeIntervalsFormSchema = z.object({
       return intervals.map(interval => {
         return {
           weekDay: interval.weekDay,
-          startTimeInMinutes: convertTimeStringToMinutes(interval.startTime),
+          startTimeInMinutes: convertTimeStringToMinutes(interval.starTime),
           endTimeInMinutes: convertTimeStringToMinutes(interval.endTime),
         }
       })
@@ -78,9 +78,14 @@ export default function TimeIntervals() {
     name: 'intervals',
   })
 
-  async function handleSetTimeIntervals(data: any) {
-    console.log(data)
+ async function handleSetTimeIntervals(data: any) {
+    const { intervals } = data as TimeIntervalsFormOutput
 
+    await api.post('/users/time-intervals', {
+      intervals,
+    })
+
+    await router.push('/register/update-profile')
   }
 
   return (

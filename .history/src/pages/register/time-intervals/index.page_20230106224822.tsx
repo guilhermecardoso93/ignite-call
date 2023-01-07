@@ -78,9 +78,9 @@ export default function TimeIntervals() {
     name: 'intervals',
   })
 
-  async function handleSetTimeIntervals(data: any) {
-    console.log(data)
-
+ async function handleSetTimeIntervals(data: any) {
+  console.log(data)
+   
   }
 
   return (

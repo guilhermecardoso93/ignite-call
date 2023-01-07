@@ -9,15 +9,14 @@ import { z } from 'zod'
 import { getWeekDays } from '../../../utils/get-weekdays'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { convertTimeStringToMinutes } from '../../../utils/convert-time-string-to-minutes'
-import { useRouter } from 'next/router'
-import { api } from '../../../lib/axios'
+// import { useRouter } from 'next/router'
 
 const timeIntervalsFormSchema = z.object({
   intervals: z.array(
     z.object({
       weekDay: z.number().min(0).max(6),
       enabled: z.boolean(),
-      startTime: z.string(),
+      starTime: z.string(),
       endTime: z.string(),
     }))
     .length(7)
@@ -29,7 +28,7 @@ const timeIntervalsFormSchema = z.object({
       return intervals.map(interval => {
         return {
           weekDay: interval.weekDay,
-          startTimeInMinutes: convertTimeStringToMinutes(interval.startTime),
+          startTimeInMinutes: convertTimeStringToMinutes(interval.starTime),
           endTimeInMinutes: convertTimeStringToMinutes(interval.endTime),
         }
       })
@@ -42,8 +41,7 @@ const timeIntervalsFormSchema = z.object({
   ,
 })
 
-type TimeIntervalsFormInput = z.input<typeof timeIntervalsFormSchema>
-type TimeIntervalsFormOutput = z.output<typeof timeIntervalsFormSchema>
+type TimeIntervalsFormData = z.infer<typeof timeIntervalsFormSchema>
 
 export default function TimeIntervals() {
   const {
@@ -51,8 +49,8 @@ export default function TimeIntervals() {
     handleSubmit,
     control,
     watch,
-    formState: { errors, isSubmitting },
-  } = useForm<TimeIntervalsFormInput>({
+    formState: { isSubmitting, errors, },
+  } = useForm({
     resolver: zodResolver(timeIntervalsFormSchema),
     defaultValues: {
       intervals: [
@@ -64,13 +62,10 @@ export default function TimeIntervals() {
         { weekDay: 5, enabled: true, startTime: '08:00', endTime: '18:00' },
         { weekDay: 6, enabled: false, startTime: '08:00', endTime: '18:00' },
       ],
-    },
+    }
   })
 
-  const router = useRouter()
-
   const weekDays = getWeekDays()
-
   const intervals = watch('intervals')
 
   const { fields } = useFieldArray({
@@ -78,9 +73,8 @@ export default function TimeIntervals() {
     name: 'intervals',
   })
 
-  async function handleSetTimeIntervals(data: any) {
+  async function handleSetTimeIntervals(data: TimeIntervalsFormData) {
     console.log(data)
-
   }
 
   return (
