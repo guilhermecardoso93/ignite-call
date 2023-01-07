@@ -1,20 +1,8 @@
-import {
-  Heading,
-  Text,
-  MultiStep,
-  Checkbox,
-  TextInput,
-  Button,
-} from '@ignite-ui/react'
+/* eslint-disable spaced-comment */
+/* eslint-disable prettier/prettier */
+import { Heading, Text, MultiStep, Checkbox, TextInput, Button } from '@ignite-ui/react'
 import { Container, Header } from '../styles'
-import {
-  IntervalBox,
-  IntervalContainer,
-  IntervalItem,
-  IntervalDay,
-  IntervalInputs,
-  TextError,
-} from './styles'
+import { IntervalBox, IntervalContainer, IntervalItem, IntervalDay, IntervalInputs, TextError } from './styles'
 import { ArrowRight } from 'phosphor-react'
 
 import { useFieldArray, useForm, Controller } from 'react-hook-form'
@@ -22,25 +10,24 @@ import { z } from 'zod'
 import { getWeekDays } from '../../../utils/get-weekdays'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { convertTimeStringToMinutes } from '../../../utils/convert-time-string-to-minutes'
+//import { useRouter } from 'next/router'
 import { api } from '../../../lib/axios'
 
 const timeIntervalsFormSchema = z.object({
-  intervals: z
-    .array(
-      z.object({
-        weekDay: z.number().min(0).max(6),
-        enabled: z.boolean(),
-        startTime: z.string(),
-        endTime: z.string(),
-      }),
-    )
+  intervals: z.array(
+    z.object({
+      weekDay: z.number().min(0).max(6),
+      enabled: z.boolean(),
+      startTime: z.string(),
+      endTime: z.string(),
+    }))
     .length(7)
-    .transform((intervals) => intervals.filter((interval) => interval.enabled))
-    .refine((intervals) => intervals.length > 0, {
-      message: 'Você precisa selecionar pelo menos um dia da semana.',
+    .transform(intervals => intervals.filter(interval => interval.enabled))
+    .refine(intervals => intervals.length > 0, {
+      message: 'Você precisa selecionar pelo menos um dia da semana.'
     })
-    .transform((intervals) => {
-      return intervals.map((interval) => {
+    .transform(intervals => {
+      return intervals.map(interval => {
         return {
           weekDay: interval.weekDay,
           startTimeInMinutes: convertTimeStringToMinutes(interval.startTime),
@@ -48,18 +35,12 @@ const timeIntervalsFormSchema = z.object({
         }
       })
     })
-    .refine(
-      (intervals) => {
-        return intervals.every(
-          (interval) =>
-            interval.endTimeInMinutes - 60 >= interval.startTimeInMinutes,
-        )
-      },
-      {
-        message:
-          'O horário de termino deve ser pelo menos de um hora de diferença!',
-      },
-    ),
+    .refine(intervals => {
+      return intervals.every(interval => interval.endTimeInMinutes - 60 >= interval.startTimeInMinutes)
+    }, {
+      message: 'O horário de termino deve ser pelo menos de um hora de diferença!'
+    })
+  ,
 })
 
 type TimeIntervalsFormInput = z.input<typeof timeIntervalsFormSchema>
@@ -87,21 +68,22 @@ export default function TimeIntervals() {
     },
   })
 
-  const weekDays = getWeekDays()
+  //const router = useRouter()
 
-  const { fields } = useFieldArray({
-    name: 'intervals',
-    control,
-  })
+  const weekDays = getWeekDays()
 
   const intervals = watch('intervals')
 
-  async function handleSetTimeIntervals(data: any) {
-    const { intervals } = data as TimeIntervalsFormOutput
+  const { fields } = useFieldArray({
+    control,
+    name: 'intervals',
+  })
 
-    await api.post('/users/time-intervals', {
-      intervals,
-    })
+  async function handleSetTimeIntervals(data: any) {
+   const { intervals } = data as TimeIntervalsFormOutput
+
+   await api.post('/users/time-intervals', intervals)
+
   }
 
   return (
@@ -109,8 +91,7 @@ export default function TimeIntervals() {
       <Header>
         <Heading as="strong">Quase lá</Heading>
         <Text>
-          Defina o intervalo de horários que você está disponível em cada dia da
-          semana.
+          Defina o intervalo de horários que você está disponível em cada dia da semana.
         </Text>
 
         <MultiStep size={4} currentStep={3} />
@@ -126,7 +107,7 @@ export default function TimeIntervals() {
                     control={control}
                     render={({ field }) => {
                       return (
-                        <Checkbox
+                        < Checkbox
                           onCheckedChange={(checked) => {
                             field.onChange(checked === true)
                           }}
@@ -168,3 +149,5 @@ export default function TimeIntervals() {
     </Container>
   )
 }
+
+
