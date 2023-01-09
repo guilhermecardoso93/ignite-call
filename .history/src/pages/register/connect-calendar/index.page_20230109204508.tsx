@@ -60,7 +60,7 @@ export default function ConnectCalender() {
         <Button
           type="submit"
           disabled={!isSignedIn}
-          onClick={handleNavigateNextStep}
+          onClick={handleNavigateNextStep()}
         >
           Próximo passo
           <ArrowRight />
