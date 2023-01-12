@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Text, TextInput, TextArea, Button } from '@ignite-ui/react'
+import {  Text, TextInput, TextArea, Button } from '@ignite-ui/react'
 import { CalendarBlank, Clock } from "phosphor-react";
 import { ConfirmForm, FormHeader, FormActions } from "./styles";
 
@@ -35,8 +35,8 @@ export function ConfirmStep() {
       </label>
 
       <FormActions>
-        <Button type="button" variant="tertiary">Cancelar</Button>
-        <Button type="submit">Confirmar</Button>
+        <Button></Button>
+        <Button></Button>
       </FormActions>
     </ConfirmForm>
   )

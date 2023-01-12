@@ -171,17 +171,17 @@ export function Calendar() {
             </td>
             <td>
             <CalendarDay>
-                
+                1
               </CalendarDay>
             </td>
             <td>
             <CalendarDay>
-                
+                1
               </CalendarDay>
             </td>
             <td>
             <CalendarDay>
-                
+                1
               </CalendarDay>
             </td>
           </tr>

@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Text, TextInput, TextArea, Button } from '@ignite-ui/react'
+import {  Text, TextInput } from '@ignite-ui/react'
 import { CalendarBlank, Clock } from "phosphor-react";
-import { ConfirmForm, FormHeader, FormActions } from "./styles";
+import { ConfirmForm, FormHeader } from "./styles";
 
 export function ConfirmStep() {
   function handleConfirmScheduling() {
@@ -25,19 +25,6 @@ export function ConfirmStep() {
         <Text size="sm">Nome Completo</Text>
         <TextInput placeholder="seu nome completo" />
       </label>
-      <label>
-        <Text size="sm">Endereço de e-mail</Text>
-        <TextInput type="email" placeholder="seu e-mail" />
-      </label>
-      <label>
-        <Text size="sm">Observações</Text>
-        <TextArea />
-      </label>
-
-      <FormActions>
-        <Button type="button" variant="tertiary">Cancelar</Button>
-        <Button type="submit">Confirmar</Button>
-      </FormActions>
     </ConfirmForm>
   )
 }
