@@ -54,13 +54,12 @@ export function Calendar() {
     const firstWeekDay = currentDate.get('day')
     const lastWeekDay = lastDayInCurrentMonth.get('day')
 
+
     const previousMonthFillArray = Array.from({
-      length: firstWeekDay,
-    })
-      .map((_, index) => {
-        return currentDate.subtract(index + 1, 'day')
-      })
-      
+      length: firstWeekDay
+    }).map((_, i) => {
+      return currentDate.subtract(i + 1, 'day')
+    }).reverse()
 
     const nextMonthFillArray = Array.from({
       length: 7 - (lastWeekDay + 1)
@@ -69,10 +68,10 @@ export function Calendar() {
     }).reverse()
 
     const calendarDays = [
-      ...previousMonthFillArray.map((date) => {
+      ...previousMonthFillArray.map(date => {
         return { date, disabled: true }
       }),
-      ...nextMonthFillArray.map((date) => {
+      ...nextMonthFillArray.map(date => {
         return { date, disabled: true }
       }),
       ...dayInMonthArray.map(date => {
@@ -124,10 +123,10 @@ export function Calendar() {
           </tr>
         </thead>
         <tbody>
-          {calendarWeeks.map(({ week, days }) => {
+          {calendarWeeks.map(({week, days}) => {
             return (
               <tr key={week}>
-                {days.map(({ date, disabled }) => {
+                {days.map(({date, disabled}) => {
                   return (
                     <td key={date.toString()}>
                       <CalendarDay disabled={disabled}>
@@ -139,7 +138,7 @@ export function Calendar() {
               </tr>
             )
           })}
-
+         
         </tbody>
       </CalendarBody>
     </CalendarContainer>

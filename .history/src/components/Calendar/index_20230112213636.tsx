@@ -60,7 +60,7 @@ export function Calendar() {
       .map((_, index) => {
         return currentDate.subtract(index + 1, 'day')
       })
-      
+      .reverse()
 
     const nextMonthFillArray = Array.from({
       length: 7 - (lastWeekDay + 1)

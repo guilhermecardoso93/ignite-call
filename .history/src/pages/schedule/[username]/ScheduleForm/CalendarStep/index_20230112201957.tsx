@@ -1,17 +1,25 @@
 /* eslint-disable prettier/prettier */
+import { useState } from "react";
+import dayjs from "dayjs";
 import { Calendar } from "../../../../../components/Calendar";
 import { Container, TimePicker, TimePickerHeader, TimePickerList, TimePickerItem } from "./styles";
 
 export function CalendarStep() {
-   const isDateSelected = false
-   
+  const [currentDate, setCurrentDate ] = useState(() => {
+    return dayjs().set('date', 1)
+  })
+
+  const isDateSelected = false
+
+  const currentMonth = currentDate.format('MMMM')
+
   return (
     <Container isTimePickerOpen={isDateSelected}>
       <Calendar />
 
       {isDateSelected && (
         <TimePicker>
-          <TimePickerHeader>5454545 <span>545454</span></TimePickerHeader>
+          <TimePickerHeader>{currentMonth} <span>20 de Novembro </span></TimePickerHeader>
 
           <TimePickerList>
             <TimePickerItem>08:00h</TimePickerItem>

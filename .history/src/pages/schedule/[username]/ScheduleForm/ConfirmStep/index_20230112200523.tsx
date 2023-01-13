@@ -6,13 +6,13 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { ConfirmForm, FormHeader, FormActions, FormError } from "./styles";
 
+type ConfirmFormData = z.infer<typeof confirmFormSchema>
+
 const confirmFormSchema = z.object({
   name: z.string().min(3, { message: 'O nome precisa no mínimo 3 caracteres'}),
   email: z.string().email({message: 'Digite um e-mail válido.'}),
   observations: z.string().nullable()
 })
-
-type ConfirmFormData = z.infer<typeof confirmFormSchema>
 
 export function ConfirmStep() {
   const { register, handleSubmit, formState:{ isSubmitting, errors }} = useForm<ConfirmFormData>({
@@ -40,14 +40,14 @@ export function ConfirmStep() {
         <Text size="sm">Nome Completo</Text>
         <TextInput placeholder="seu nome completo" {...register('name')}/>
         {errors.name && (
-          <FormError size="sm">{errors.name.message}</FormError>
+          <FormError>{errors.name.message}</FormError>
         )}
       </label>
       <label>
         <Text size="sm">Endereço de e-mail</Text>
         <TextInput type="email" placeholder="seu e-mail" {...register('email')}/>
         {errors.email && (
-          <FormError size="sm">{errors.email?.message}</FormError>
+          <FormError>{errors.email?.message}</FormError>
         )}
       </label>
       <label>

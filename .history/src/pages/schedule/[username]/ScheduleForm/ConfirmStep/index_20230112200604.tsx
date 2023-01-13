@@ -40,14 +40,14 @@ export function ConfirmStep() {
         <Text size="sm">Nome Completo</Text>
         <TextInput placeholder="seu nome completo" {...register('name')}/>
         {errors.name && (
-          <FormError size="sm">{errors.name.message}</FormError>
+          <FormError>{errors.name.message}</FormError>
         )}
       </label>
       <label>
         <Text size="sm">Endereço de e-mail</Text>
         <TextInput type="email" placeholder="seu e-mail" {...register('email')}/>
         {errors.email && (
-          <FormError size="sm">{errors.email?.message}</FormError>
+          <FormError>{errors.email?.message}</FormError>
         )}
       </label>
       <label>

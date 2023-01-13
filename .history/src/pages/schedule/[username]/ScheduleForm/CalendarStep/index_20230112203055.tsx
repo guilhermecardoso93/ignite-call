@@ -3,15 +3,22 @@ import { Calendar } from "../../../../../components/Calendar";
 import { Container, TimePicker, TimePickerHeader, TimePickerList, TimePickerItem } from "./styles";
 
 export function CalendarStep() {
-   const isDateSelected = false
-   
+  const [currentDate, setCurrentDate ] = useState(() => {
+    return dayjs().set('date', 1)
+  })
+
+  const isDateSelected = false
+
+  const currentMonth = currentDate.format('MMMM')
+  const currentYear = currentDate.format('YYYY')
+
   return (
     <Container isTimePickerOpen={isDateSelected}>
       <Calendar />
 
       {isDateSelected && (
         <TimePicker>
-          <TimePickerHeader>5454545 <span>545454</span></TimePickerHeader>
+          <TimePickerHeader>5454545 <span>{currentYear}</span></TimePickerHeader>
 
           <TimePickerList>
             <TimePickerItem>08:00h</TimePickerItem>

@@ -3,15 +3,15 @@ import { Calendar } from "../../../../../components/Calendar";
 import { Container, TimePicker, TimePickerHeader, TimePickerList, TimePickerItem } from "./styles";
 
 export function CalendarStep() {
-   const isDateSelected = false
-   
+  const isDateSelected = false
+
   return (
     <Container isTimePickerOpen={isDateSelected}>
       <Calendar />
 
       {isDateSelected && (
         <TimePicker>
-          <TimePickerHeader>5454545 <span>545454</span></TimePickerHeader>
+          <TimePickerHeader>terça-feira <span>20 de Novembro </span></TimePickerHeader>
 
           <TimePickerList>
             <TimePickerItem>08:00h</TimePickerItem>
