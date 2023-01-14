@@ -5,7 +5,7 @@ import { Calendar } from "../../../../../components/Calendar";
 import { Container, TimePicker, TimePickerHeader, TimePickerList, TimePickerItem } from "./styles";
 import { api } from "../../../../../lib/axios";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query/build/lib/useQuery";
 
 interface Availability {
   possibleTimes: number[],
@@ -24,10 +24,10 @@ export function CalendarStep() {
   const weekDay = selectedDate ? dayjs(selectedDate).format('dddd') : null
   const describeDate = selectedDate ? dayjs(selectedDate).format('DD[ de ]MMMM') : null
 
-  const selectedDateWithoutTime = selectedDate ? dayjs(selectedDate).format('YYYY-MM-DD') : null
+  const selectedDateWithoutTime = selectedDate ? dayjs(selectedDate).format('YYYY-MM-DD'): null
 
-  const { data: availability } = useQuery<Availability>(['availability', selectedDateWithoutTime], async () => {
-    const response = await api.get(`/users/${username}/availability`, {
+  const {data: availability } = useQuery<Availability>(['availability', selectedDateWithoutTime], async () => {
+    const response = await api.get(`/users/${username}/availability`, { 
       params: {
         date: selectedDateWithoutTime,
       }
@@ -52,12 +52,12 @@ export function CalendarStep() {
 
             {availability?.possibleTimes.map(hour => {
               return (
-                <TimePickerItem
-                  key={hour}
+                <TimePickerItem 
+                  key={hour} 
                   disabled={!availability.availableTimes.includes(hour)}
                 >
-                  {String(hour).padStart(2, '0')}:00h
-                </TimePickerItem>
+                {String(hour).padStart(2, '0')}:00h
+              </TimePickerItem>
               )
             })}
           </TimePickerList>
