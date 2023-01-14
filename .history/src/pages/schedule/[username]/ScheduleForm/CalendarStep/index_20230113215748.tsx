@@ -29,7 +29,7 @@ export function CalendarStep() {
     }).then((response) => {
       console.log(response.data)
     })
-  }, [selectedDate, username])
+  }, [setSelectedDate, username])
 
   return (
     <Container isTimePickerOpen={isDateSelected}>

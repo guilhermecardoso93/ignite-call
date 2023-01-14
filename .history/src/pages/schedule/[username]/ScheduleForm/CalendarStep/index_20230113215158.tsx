@@ -1,39 +1,33 @@
 /* eslint-disable prettier/prettier */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRouter } from "react";
 import dayjs from "dayjs";
 import { Calendar } from "../../../../../components/Calendar";
 import { Container, TimePicker, TimePickerHeader, TimePickerList, TimePickerItem } from "./styles";
 import { api } from "../../../../../lib/axios";
-import { useRouter } from "next/router";
 
 export function CalendarStep() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [availability, setAvailability] = useState(null)
-
+  const [ selectedDate, setSelectedDate ] = useState<Date | null>(null)
+  const [ availability, setAvailability ] = useState(null)
+  
   const router = useRouter()
 
-  const isDateSelected = !!selectedDate
-  const username = String(router.query.username)
+   const isDateSelected = !!selectedDate
+    const username = String(router.query.username)
 
-  const weekDay = selectedDate ? dayjs(selectedDate).format('dddd') : null
-  const describeDate = selectedDate ? dayjs(selectedDate).format('DD[ de ]MMMM') : null
+   const weekDay = selectedDate ? dayjs(selectedDate).format('dddd') : null
+   const describeDate = selectedDate ? dayjs(selectedDate).format('DD[ de ]MMMM') : null
 
-  useEffect(() => {
+   useEffect(() => {
     if (!selectedDate) {
-      return
+      return null
     }
-    api.get(`/users/${username}/availability`, {
-      params: {
-        date: dayjs(selectedDate).format('YYYY-MM-DD')
-      }
-    }).then((response) => {
-      console.log(response.data)
-    })
-  }, [selectedDate, username])
+     api.get(`/users/${username}`)
+
+   }, [setSelectedDate])
 
   return (
     <Container isTimePickerOpen={isDateSelected}>
-      <Calendar
+      <Calendar 
         selectedDate={selectedDate} onDateSelected={setSelectedDate}
       />
 

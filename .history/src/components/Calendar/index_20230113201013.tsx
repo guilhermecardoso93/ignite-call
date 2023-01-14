@@ -31,7 +31,7 @@ interface CalendarProps {
   onDateSelected: (date: Date) => void
 }
 
-export function Calendar({selectedDate,onDateSelected } : CalendarProps) {
+export function Calendar() {
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs().set('date', 1)
   })
@@ -60,42 +60,34 @@ export function Calendar({selectedDate,onDateSelected } : CalendarProps) {
       return currentDate.set('date', i + 1)
     })
 
-
+    const lastDayInCurrentMonth = currentDate.set('date', currentDate.daysInMonth())
     const firstWeekDay = currentDate.get('day')
-
+    const lastWeekDay = lastDayInCurrentMonth.get('day')
 
     const previousMonthFillArray = Array.from({
       length: firstWeekDay,
     })
-      .map((_, i) => {
-        return currentDate.subtract(i + 1, 'day')
+      .map((_, index) => {
+        return currentDate.subtract(index + 1, 'day')
       })
       .reverse()
 
-    const lastDayInCurrentMonth = currentDate.set(
-      'date',
-      currentDate.daysInMonth(),
-    )
-
-    const lastWeekDay = lastDayInCurrentMonth.get('day')
 
     const nextMonthFillArray = Array.from({
       length: 7 - (lastWeekDay + 1),
-    }).map((_, i) => {
-      return lastDayInCurrentMonth.add(i + 1, 'day')
+    }).map((_, index) => {
+      return lastDayInCurrentMonth.add(index + 1, 'day')
     })
-
-
 
     const calendarDays = [
       ...previousMonthFillArray.map((date) => {
         return { date, disabled: true }
       }),
-      ...dayInMonthArray.map(date => {
-        return { date, disabled: date.endOf('day').isBefore(new Date()) }
-      }),
       ...nextMonthFillArray.map((date) => {
         return { date, disabled: true }
+      }),
+      ...dayInMonthArray.map(date => {
+        return { date, disabled: false }
       }),
     ]
 
@@ -127,10 +119,10 @@ export function Calendar({selectedDate,onDateSelected } : CalendarProps) {
         </CalendarTitle>
 
         <CalendarActions>
-          <button onClick={handlePreviousMonth} title="Previous Month">
+          <button onClick={handlePreviousMonth} title="Previous month">
             <CaretLeft />
           </button>
-          <button onClick={handleNextMonth} title="Next Month">
+          <button onClick={handleNextMonth} title="Next month">
             <CaretRight />
           </button>
         </CalendarActions>
@@ -139,7 +131,9 @@ export function Calendar({selectedDate,onDateSelected } : CalendarProps) {
       <CalendarBody>
         <thead>
           <tr>
-            {shortWeekDays.map(weekday => <th key={weekday}>{weekday}.</th>)}
+            {shortWeekDays.map((weekDay) => (
+              <th key={weekDay}>{weekDay}.</th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -149,9 +143,8 @@ export function Calendar({selectedDate,onDateSelected } : CalendarProps) {
                 {days.map(({ date, disabled }) => {
                   return (
                     <td key={date.toString()}>
-                      <CalendarDay 
-                      disabled={disabled}
-                      onClick={() => onDateSelected(date.toDate())}
+                      <CalendarDay
+                        disabled={disabled}
                       >
                         {date.get('date')}
                       </CalendarDay>
@@ -161,7 +154,6 @@ export function Calendar({selectedDate,onDateSelected } : CalendarProps) {
               </tr>
             )
           })}
-
         </tbody>
       </CalendarBody>
     </CalendarContainer>
