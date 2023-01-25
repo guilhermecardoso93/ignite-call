@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Text, TextArea, TextInput } from '@ignite-ui/react'
 import dayjs from 'dayjs'
@@ -46,7 +45,7 @@ export function ConfirmStep({
       observations,
       date: schedulingDate,
     })
-    
+
     onCancelConfirmation()
   }
 

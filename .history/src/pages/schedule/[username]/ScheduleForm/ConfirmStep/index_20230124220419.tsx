@@ -46,8 +46,8 @@ export function ConfirmStep({
       observations,
       date: schedulingDate,
     })
-    
-    onCancelConfirmation()
+
+    await router.push(`/schedule/${username}`)
   }
 
   const describedDate = dayjs(schedulingDate).format('DD[ de ]MMMM[ de ]YYYY')
