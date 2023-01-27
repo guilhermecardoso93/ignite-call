@@ -12,8 +12,7 @@ export default function Home() {
     <>
       <NextSeo
         title="Descomplique sua agenda! | Ignite Call"
-        description="Conecte seu calendário e permita que as pessoas marquem agendamentos
-        no seu tempo livre."
+        description="A short description goes here."
       />
       <Container>
         <Hero>

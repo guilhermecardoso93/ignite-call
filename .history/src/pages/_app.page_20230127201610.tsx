@@ -23,6 +23,11 @@ export default function App({
             url: "https://www.ignitecall.com/",
             siteName: "Ignite Call",
           }}
+          twitter={{
+            handle: "@handle",
+            site: "@site",
+            cardType: "summary_large_image",
+          }}
         />
         <Component {...pageProps} />
       </SessionProvider>
