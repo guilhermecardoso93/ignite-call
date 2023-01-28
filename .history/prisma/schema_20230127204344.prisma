@@ -43,7 +43,6 @@ model Account {
 
   @@unique([provider, provider_account_id])
   @@map("accounts")
-  @@index([user_id])
 }
 
 model Session {
@@ -55,7 +54,6 @@ model Session {
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("sessions")
-  @@index([user_id])
 }
 
 model UserTimeInterval {
